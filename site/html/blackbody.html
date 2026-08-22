@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="BeViz">
+
+        <title>BeViz - Blackbody</title>
+
+        <link rel="stylesheet" href="../css/main.css">
+
+        <script defer type="module" src="../js/blackbody.js"> </script>
+    </head>
+
+    <body>
+
+        <br>
+        <input type="range" id="temperatureSliderId" name="temperatureSlider" min="100" max="10000" step="50"/>
+        <label for="temperatureSliderId" id="temperatureSliderLabelId" style="color: aliceblue">Temperature</label>
+        <br>
+
+        <div class="card-container">
+            <div class="card">
+
+                <canvas width="512" height="512"></canvas>
+                <div>
+                    <p id="XYZ"> </p>
+                    <p id=""> </p>
+                    <p id="RGB"> </p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

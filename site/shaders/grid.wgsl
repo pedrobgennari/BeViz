@@ -12,7 +12,7 @@ struct RGBMatrix {
     data: array<vec4<f32>>,
 };
 
-@group(0) @binding(0) var<uniform> grid: vec2f;
+@group(0) @binding(0) var<uniform> grid: vec2f; // grid uniform is '[width, height]'
 @group(0) @binding(1) var<storage> RGBs: RGBMatrix;
 
 @vertex

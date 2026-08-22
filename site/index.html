@@ -8,16 +8,35 @@
 
         <title>BeViz</title>
 
-        <script defer type="module" src="js/test.js"></script>
-        <!-- <script defer type="module" src="js/main.js"></script>-->
+        <!-- <script defer type="module" src="js/test.js"></script>
+         <script defer type="module" src="js/main.js"></script>-->
+
+        <link rel="stylesheet" href="css/main.css">
     </head>
 
-    <body style="background-color: #000000">
-        <canvas width="512" height="512"></canvas>
-    </body>
+    <body>
+    <!--<canvas width="512" height="512"></canvas>-->
 
+        <nav class="navbar">
+            <div class="logo">
+                <!--<img src="images/logo.png"/>
+                <p><span>Pedro Barletta Gennari</span></p>-->
+            </div>
+            <ul>
+                <li><a class="current-page" href="index.html">HOME</a></li>
+            </ul>
+        </nav>
+
+        <h1> BeViz</h1>
+
+        <div class="external-links">
+            <a href="html/blackbody.html" target="_blank"> <button>Black Body Color Simulator</button> </a>
+            <a href="html/bestar.html" target="_blank"> <button>Be Star Color</button> </a>
+        </div>
+
+    </body>
     <br>
-    <input type="range" id="temperatureSliderId" name="temperatureSlider" min="25" max="10000" />
-    <label for="temperatureSliderId" id="temperatureSliderLabelId" style="color: aliceblue">Temperature</label>
+    <!--<input type="range" id="temperatureSliderId" name="temperatureSlider" min="25" max="10000" />
+    <label for="temperatureSliderId" id="temperatureSliderLabelId" style="color: aliceblue">Temperature</label>-->
 
 </html>
