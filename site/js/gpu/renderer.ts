@@ -1,49 +1,24 @@
-///////////////////
-// -> IMPORTS <- //
-///////////////////
+import GRID_SHADER from "../../shaders/grid.wgsl?raw"
+import { assertNotNull } from "../utils/assertions"
 
-// Shaders
-import GRID_SHADER from "../shaders/grid.wgsl?raw"
-
-//////////////////
-// -> RENDER <- //
-//////////////////
-
-// todo: change module name to 'renderer.js'
-// todo: change function name to 'createGridRenderer'.
-// todo: this should probably reveice device, not make it
-export async function setupRenderer(width, height) {
-
-    ////////////////////////////////
-    // -> CHECK WEBGPU SUPPORT <- //
-    ////////////////////////////////
-
-    // Check for webGPU support
-    if (!navigator.gpu) {
-        throw new Error("WebGPU not supported");
-    }
-    const adapter = await navigator.gpu.requestAdapter();
-    if (!adapter) {
-        throw new Error("No GPUAdapter found.");
-    }
-
-    console.log(adapter.limits);
+export function createGridRenderer(device: GPUDevice, width: number, height: number) {
 
     ///////////////////////
     // -> BASIC SETUP <- //
     ///////////////////////
 
-    // Get GPU device
-    const device = await adapter.requestDevice();
+    // Get canvas (from .html file)
+    const canvas = document.querySelector("canvas");
+    assertNotNull(canvas, "Canvas not found.");
 
-    // Get and configure canvas context
-    const canvas = document.querySelector("canvas"); // Get canvas on .html file
-    const context = canvas.getContext("webgpu"); // Get canvas context (for drawing)
-    const canvasFormat = navigator.gpu.getPreferredCanvasFormat(); // Get canvas format
-    context.configure({
-        device,
-        format: canvasFormat,
-    });
+    // Get canvas context (for drawing)
+    const context = canvas.getContext("webgpu");
+    assertNotNull(context, "Context not found.");
+
+    // Get canvas format
+    const canvasFormat = navigator.gpu.getPreferredCanvasFormat();
+
+    context.configure({ device, format: canvasFormat });
 
     //////////////////////////
     // -> SHADER MODULES <- //
@@ -71,7 +46,7 @@ export async function setupRenderer(width, height) {
     });
     device.queue.writeBuffer(vertexBuffer, 0, vertexArray);
 
-    const vertexBufferLayout = {
+    const vertexBufferLayout  = {
         arrayStride: 8,
         attributes: [
             {
@@ -80,7 +55,7 @@ export async function setupRenderer(width, height) {
                 shaderLocation: 0,
             },
         ],
-    };
+    } satisfies GPUVertexBufferLayout;
 
     // Uniforms Buffer
     const uniformArray = new Float32Array([width, height]);
@@ -157,11 +132,11 @@ export async function setupRenderer(width, height) {
         }
     });
 
-    /////////////////////////
-    // -> RETURN RENDER <- //
-    /////////////////////////
+    //////////////////
+    // -> RENDER <- //
+    //////////////////
 
-    function render(RGBsArray, offset = 0){
+    function render(RGBsArray: Float32Array, offset: number = 0){
 
         // Write RGBs to Buffer
         device.queue.writeBuffer(RGBsBuffer, offset, RGBsArray);
@@ -172,6 +147,7 @@ export async function setupRenderer(width, height) {
 
         const encoder = device.createCommandEncoder();
 
+        assertNotNull(context);
         const renderPass = encoder.beginRenderPass({
             colorAttachments: [{
                 view: context.getCurrentTexture().createView(),

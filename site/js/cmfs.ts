@@ -1,6 +1,7 @@
-import CMFs from "../data/cmfs.json"
+import rawCMFs from "../data/cmfs.json"
+const CMFs: Record<string, number[]> = rawCMFs
 
-export function lerp(x) {
+export function lerp(x: number): number[] {
     // If x is OUT of the visible espectrum, return [0, 0, 0]
     if (x < 360 || x > 830) return [0, 0, 0];
 

@@ -16,11 +16,15 @@ jobs:
         with:
           node-version: 24
           cache: 'npm'
-          cache-dependency-path: site/
+          cache-dependency-path: site/package-lock.json
 
       - name: Install dependencies
         working-directory: site/
         run: npm ci
+
+      - name: Check types
+        working-directory: site/
+        run: npm run typecheck
 
       - name: Run Vite
         working-directory: site/

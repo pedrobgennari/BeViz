@@ -1,18 +1,22 @@
 {
   "name": "beviz-site",
   "version": "0.0.1",
-  "main": "vite.config.js",
+  "main": "vite.config.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit "
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/node": "^26.2.0",
+    "@webgpu/types": "^0.1.72",
+    "typescript": "^7.0.2",
     "vite": "8.0.16"
   }
 }
