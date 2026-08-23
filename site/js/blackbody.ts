@@ -1,33 +1,21 @@
-///////////////////
-// -> IMPORTS <- //
-///////////////////
+import rawCMFs from "../data/cmfs.json"
+import { createGridRenderer } from "./gpu/renderer";
+import {assertNotNull} from "./utils/assertions";
 
-import CMFs from "../data/cmfs.json"
-import {setupRenderer} from "./renderer";
-
-//import "../css/main.css";
-
-/////////////////////
-// -> CONSTANTS <- //
-/////////////////////
+const CMFs: Record<string, number[]> = rawCMFs
 
 const c = 299792458.0;      // Speed Of Light
 const h = 6.62607015e-34;   // Planck's Constant
 const k = 1.380649e-23;     // Boltzmann constant
 
-//////////////////
-// -> PLANCK <- //
-//////////////////
-
-function planck(wavelength, temperature){
+function planck(wavelength: number, temperature: number): number{
     const a = (2 * h * c * c) / (wavelength**5)
     const b = (h * c) / (wavelength * k * temperature)
-    const B = a / (Math.exp(b) - 1)
-    return B
+    return a / (Math.exp(b) - 1)
 }
 
-// Temprary gamma func
-function gamma(C) {
+// Temporary gamma func
+function gamma(C: number): number {
     if (Math.abs(C) < 0.0031308){ return 12.92 * C }
     return 1.055 * (C ** (1 / 2.4)) - 0.055
 }
@@ -37,50 +25,27 @@ function gamma(C) {
 /////////////////////
 
 export class BlackBody{
+    temperature: number;
+    diameter: number;
+    SpectralPowerDistribution: Record<number, number>;
+
     constructor(temperature = 1000, diameter = 1000){
         this.temperature = temperature; // this.setTemperature(temperature);
         this.diameter = diameter;
         this.SpectralPowerDistribution = {};
     }
 
-    setTemperature(temperature){
+    setTemperature(temperature: number){
         this.temperature = temperature;
 
         for (let wavelength = 360; wavelength <= 830; wavelength++) {
-            const intensity = planck(wavelength * 1e-9, this.temperature);
-            this.SpectralPowerDistribution[wavelength] = intensity;
+            this.SpectralPowerDistribution[wavelength] = planck(wavelength * 1e-9, this.temperature);
         }
     }
-
-    // getSpectralPowerDistribution(){
-    //     // Create flat array with SPD
-    //     let SPD = [];
-    //     for (let [key, value] of Object.entries(this.SpectralPowerDistribution)){
-    //         SPD.push(key, value);
-    //     }
-    //     SPD = new Float32Array(SPD);
-    //
-    //     // Create empty matrix
-    //     const SPDsMatrix = new Array(this.diameter+1);
-    //     for (let i = 0; i < this.diameter+1; i++){
-    //         SPDsMatrix[i] = new Array(this.diameter+1);
-    //     }
-    //
-    //     // Fill matrix with SPDs, making a circle
-    //     for (let x = 0; x <= this.diameter; x++) {
-    //         for (let y = 0; y <= this.diameter; y++) {
-    //             if ( (x - this.diameter/2)**2 + (y - this.diameter/2)**2 <= (this.diameter/2)**2){
-    //                 SPDsMatrix[x][y] = SPD;
-    //             }
-    //         }
-    //     }
-    //     console.log(SPDsMatrix);
-    //     return SPDsMatrix;
-    // }
 }
 
 // Temporary color computation
-function computeColor(spd, l1, l2){
+function computeColor(spd: Record<number, number>, l1: HTMLParagraphElement, l2: HTMLParagraphElement){
 
     // SPD -> XYZ
     let X = 0;
@@ -92,8 +57,6 @@ function computeColor(spd, l1, l2){
         Y += spd[i] * CMFs[i][1];
         Z += spd[i] * CMFs[i][2];
     }
-
-
 
     let normX = X/Y;
     let normY = Y/Y;
@@ -132,20 +95,27 @@ async function main(){
     const diameter = 512;
     let blackbody = new BlackBody();
 
-    let temperatureSlider = document.getElementById("temperatureSliderId");
-    let temperatureSliderLabel = document.getElementById("temperatureSliderLabelId");
+    let temperatureSlider = document.getElementById("temperatureSliderId") as HTMLInputElement ;
+    let temperatureSliderLabel = document.getElementById("temperatureSliderLabelId") as HTMLLabelElement;
 
-    const renderer = await setupRenderer(diameter, diameter);
+    assertNotNull(navigator.gpu, "WebGPU not supported")
+
+    const adapter = await navigator.gpu.requestAdapter();
+    assertNotNull(adapter, "No GPUAdapter found.");
+
+    const device = await adapter.requestDevice();
+
+    const renderer = createGridRenderer(device, diameter, diameter);
 
     ////////
-    let XYZlabel = document.getElementById("XYZ");
-    let RGBlabel = document.getElementById("RGB");
+    let XYZlabel = document.getElementById("XYZ") as HTMLParagraphElement;
+    let RGBlabel = document.getElementById("RGB") as HTMLParagraphElement;
 
     ////////////
 
     temperatureSlider.oninput = function (){
         temperatureSliderLabel.innerText = "Temperature: " + temperatureSlider.value + "K";
-        blackbody.setTemperature(temperatureSlider.value);
+        blackbody.setTemperature(temperatureSlider.valueAsNumber);
 
         const RGBs = new Float32Array(diameter * diameter * 4);
 
