@@ -152,7 +152,7 @@ export function createGridRenderer(device: GPUDevice, width: number, height: num
             colorAttachments: [{
                 view: context.getCurrentTexture().createView(),
                 loadOp: "clear",
-                clearValue: { r: 0, g: 0, b: 0.4, a: 1.0 },
+                clearValue: { r: 0, g: 0, b: 0, a: 1.0 },
                 storeOp: "store",
             }]
         });

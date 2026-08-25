@@ -1,0 +1,29 @@
+/*********
+ * Cards *
+ *********/
+
+.card-container{
+    margin-left: 100px;
+    margin-right: 100px;
+    display:  flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.card{
+    display: flex;
+    gap: 20px;
+
+    background-color: var(--background-color2);
+
+    /*border: 1px solid var(--secondary-color);*/
+    padding: 16px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+
+    corner-shape: squircle;
+    border-radius: 10%;
+}
+
+.card p{
+    color: var(--text-color2);
+}

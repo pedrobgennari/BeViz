@@ -1,14 +1,15 @@
-@import url('https://fonts.googleapis.com/css?family=Inter:700|Inter:400');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+/*@import url('https://fonts.googleapis.com/css?family=Inter:700|Inter:400');*/
 
 /****************
  * Color Themes *
  ****************/
 
-:root{
+:root {
     --text-color: #eae9fc;
     --text-color2: #a8c4ec;
-    --background-color: #27272A;
-    --background-color2: #262b40;
+    --background-color: black; /*--background-color: #27272A;*/
+    --background-color2: black; /*--background-color2: #262b40;*/
     --primary-color: #0474c4;
     --primary-color2: #5379ae;
     --secondary-color: #06457f;
@@ -16,28 +17,112 @@
     --accent-color2: #2c444c;
 }
 
+/***********
+ * General *
+ ***********/
 
 body {
-    margin: 0px;
     color: var(--text-color);
-    font-family: 'Inter', serif;
-    font-weight: 400;
     background: var(--background-color);
+    font-family: "JetBrains Mono", monospace; /*font-family: 'Inter', serif;*/
+    font-optical-sizing: auto;
+    font-weight: 100; /*font-weight: 400;*/
+    font-style: normal;
 }
 
-h1, h2, h3, h4, h5 {font-weight: 700;}
-h1 {font-size: 3.053rem; /* 48.8px */}
-h2 {font-size: 2.442rem; /* 39.04px */}
-h3 {font-size: 1.954rem; /* 31.2px */}
-h4 {font-size: 1.563rem; /* 24.96px */}
-h5 {font-size: 1.250rem; /* 20px */}
-small {font-size: 0.800rem; /* 12.8px */}
+#file-input {
+    font-family: "JetBrains Mono", monospace;
+    padding: 1vh 1vw;
+    background: #2563eb;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#file-input:hover {
+    background: #1d4ed8;
+}
+
+h1, h2, h3, h4, h5 { font-weight: 700; }
+h1 { font-size: 3.053rem; }
+h2 { font-size: 2.442rem; }
+h3 { font-size: 1.954rem; }
+h4 { font-size: 1.563rem; }
+h5 { font-size: 1.250rem; }
+small { font-size: 0.800rem; }
+
+.subtitle{
+    font-size: 0;
+}
+
+.subtitle *{
+    font-size: 1.563rem;
+    font-weight: 100;
+}
 
 main{
-    margin-top: 100px;
-    margin-left: 20px;
-    margin-right: 20px;
-    font-size: 1.2rem;
+    display: grid;
+    justify-content: left;
+    padding: 1vh 1vw;
+}
+
+/**************
+ * Text Color *
+ **************/
+
+.bred {
+    color: black;
+    background-color: lightcoral;
+}
+
+.bgreen {
+    color: black;
+    background-color: lightgreen;
+}
+
+.bblue {
+    color: black;
+    background-color: lightskyblue; /*#0474c4;*/
+}
+
+/**************
+ * Typewriter *
+ **************/
+
+.typewriter {
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+    vertical-align: bottom;
+    width: 0;
+}
+
+.typewriter.lenght4 {
+    --lenght: 4ch;
+    animation: typing 0.4s steps(4) forwards;
+    animation-delay: 0.2s;
+}
+
+.typewriter.lenght5 {
+    --lenght: 5ch;
+    animation: typing 0.5s steps(5) forwards;
+    animation-delay: 1.2s;
+}
+
+.typewriter.lenght6 {
+    --lenght: 6ch;
+    animation: typing 0.6s steps(6) forwards;
+    animation-delay: 0.6s;
+}
+
+.typewriter.lenght10 {
+    --lenght: 10ch;
+    animation: typing 1.0s steps(10) forwards;
+    animation-delay: 1.7s;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: var(--lenght) }
 }
 
 /******************
@@ -88,20 +173,22 @@ main{
     font-weight: 400;
     display: block;
     transition: 0.3s;
-
 }
 
-.navbar li a:hover{
+.navbar li a:not(.current-page):hover{
     color: var(--text-color);
 }
 
 .navbar .current-page{
-    font-weight: 700;
+    /*font-weight: 700;*/
+    color: black;
+    background: var(--accent-color);
+    border-radius: 6px;
 }
 
 .navbar li a::after{
     content: '';
-    height: 0px;
+    height: 0;
     width: 100%;
     position: absolute;
     bottom: 0;
@@ -109,74 +196,6 @@ main{
 }
 
 .navbar li a:hover::after{
-    background: var(--secondary-color);/*linear-gradient(to right, var(--primary-color2), var(--secondary-color));*/
+    background: var(--secondary-color); /*linear-gradient(to right, var(--primary-color2), var(--secondary-color));*/
     height: 3px;
-}
-
-/*********
- * Cards *
- *********/
-
-.card-container{
-    margin-left: 100px;
-    margin-right: 100px;
-    display:  flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-}
-
-.card{
-    display: flex;
-    gap: 20px;
-
-    background-color: var(--background-color2);
-
-    /*border: 1px solid var(--secondary-color);*/
-    padding: 16px;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-
-    corner-shape: squircle;
-    border-radius: 10%;
-}
-
-.card p{
-    color: var(--text-color2);
-}
-
-/******************
- * External Links *
- ******************/
-
-.external-links{
-    display: flex;
-    gap: 1rem;
-}
-
-.external-links button{
-    color: var(--text-color);
-    background-color: var(--primary-color);
-    padding: 1em 2em;
-    border: none;
-    border-radius:1000px;
-    position: relative;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.external-links button::after{
-    content: '';
-    position: absolute;
-    height: 107%;
-    width: 102%;
-    border-radius: 1000px;
-    background-image: linear-gradient(to bottom right, var(--secondary-color), var(--accent-color));
-    z-index: -1;
-}
-
-.external-links button:hover{
-    z-index: 0;
-    /*box-shadow: 40px 0 100px var(--secondary-color), -40px 0 100px var(--accent-color);*/
-    transform: translateY(-5px);
 }
