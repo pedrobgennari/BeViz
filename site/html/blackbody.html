@@ -9,11 +9,19 @@
         <title>BeViz - Blackbody</title>
 
         <link rel="stylesheet" href="../css/main.css">
+        <link rel="stylesheet" href="../css/cards.css">
 
-        <script defer type="module" src="../js/blackbody.ts"> </script>
+        <script defer type="module" src="../js/blackbody.ts"></script>
     </head>
 
     <body>
+        <nav class="navbar">
+            <ul>
+                <li><a href="../index.html">HOME</a></li>
+                <li><a class="current-page" href="blackbody.html">BLACKBODY</a></li>
+                <li><a href="bestar.html">BESTAR</a></li>
+            </ul>
+        </nav>
 
         <br>
         <input type="range" id="temperatureSliderId" name="temperatureSlider" min="100" max="10000" step="50"/>

@@ -10,7 +10,7 @@ function gamma(C: number): number {
     return 1.055 * (C ** (1 / 2.4)) - 0.055
 }
 
-document.getElementById("mapsFileInput")?.addEventListener("change", async (event) => {
+document.getElementById("file-input")?.addEventListener("change", async (event) => {
 
     const target = event.target as HTMLInputElement;
     const files = target.files;

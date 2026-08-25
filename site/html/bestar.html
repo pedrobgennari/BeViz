@@ -9,16 +9,25 @@
         <title>BeViz - Be Star</title>
 
         <link rel="stylesheet" href="../css/main.css">
+        <link rel="stylesheet" href="../css/cards.css">
 
-        <script defer type="module" src="../js/be-star.ts"> </script>
+        <script defer type="module" src="../js/be-star.ts"></script>
     </head>
 
     <body>
-        <input type="file" id="mapsFileInput">
+        <nav class="navbar">
+            <ul>
+                <li><a href="../index.html">HOME</a></li>
+                <li><a href="blackbody.html">BLACKBODY</a></li>
+                <li><a class="current-page" href="bestar.html">BESTAR</a></li>
+            </ul>
+        </nav>
+
+        <input type="file" id="file-input" accept=".maps">
+
 
         <div class="card-container">
             <div class="card">
-
                 <canvas width="512" height="512"></canvas>
             </div>
         </div>
